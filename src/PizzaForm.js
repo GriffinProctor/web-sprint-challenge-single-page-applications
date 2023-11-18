@@ -74,6 +74,12 @@ const PizzaForm = () => {
                     onChange={() => setTopping4(!topping4)}/>
                     <label htmlFor="topping4">Onions</label>
                 </div>
+                <label htmlFor="special-text">Special Instructions:</label>
+                <textarea 
+                id="special-text"
+                value={special}
+                onChange={(e) => setSpecial(e.target.value)}>
+                </textarea>
                 <button type="button" id="order-button" onClick={handleSubmit}>
                     Add to Order
                 </button>
