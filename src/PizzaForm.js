@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import * as yup from "yup"
+
+const schema = yup.object().shape({
+    name: yup
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .required('Name is required')
+})
 
 const PizzaForm = () => {
     const [name, setName] = useState('')
@@ -14,12 +22,13 @@ const PizzaForm = () => {
 
 
 
-    const handleSubmit = () => {
-        if (name.length < 2) {
-            setNameError('Name must be at least 2 characters')
-            return;
-        }
-        setNameError('')
+
+
+    const handleSubmit = async () => {
+        try {
+            await schema.validate({name},{ abortEarly: false})
+        
+        
 
         const formData = {
             name,
@@ -31,6 +40,13 @@ const PizzaForm = () => {
             special,
         }
         console.log(formData)
+        } catch (validationErrors) {
+            const newErrors = {}
+            validationErrors.inner.forEach((error) => {
+                newErrors[error.path] = error.message
+            })
+            setNameError(newErrors.name)
+        }
     }
     return (
         <div style={{ margin: '20px' }}>
