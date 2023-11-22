@@ -41,7 +41,7 @@ const PizzaForm = () => {
                         Homepage
                     </Link>
                 </div>
-                <label htmlFor="name-input" >Name:</label>&nbsp;
+                <label {...nameError && <div style={{ color: 'red' }}>{nameError}</div>} htmlFor="name-input" >Name:</label>&nbsp;
                 <input
                     style={{ marginBottom: '10px' }}
                     type="text"
@@ -49,7 +49,7 @@ const PizzaForm = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />&nbsp;
-                {nameError && <div style={{ color: 'red' }}>{nameError}</div>}
+                
                 <label htmlFor="size-dropdown">Size:</label>&nbsp;
                 <select
                     id="size-dropdown"
