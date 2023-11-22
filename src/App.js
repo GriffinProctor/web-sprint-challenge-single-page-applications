@@ -8,7 +8,6 @@ import PizzaForm from "./PizzaForm";
 const App = () => {
   return (
     <div>
-      <h1>TEST</h1>
       <Routes>
         <Route path="/pizza" element={<PizzaForm />}/>
         <Route path="/" element={<HomePage />}/>
