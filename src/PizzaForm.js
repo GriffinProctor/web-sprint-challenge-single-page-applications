@@ -35,6 +35,7 @@ const PizzaForm = () => {
         schema.validate(formData, {abortEarly: false})
         .then(() => {
             console.log(formData)
+            setNameError('')
         })
         .catch((error) => {
             const errors = {};
@@ -43,7 +44,7 @@ const PizzaForm = () => {
                 errors[e.path] = e.message;
               });
             } else {
-              console.error("Validation error:", error.message);
+              console.error(error.message);
             }
       
             setNameError(errors.name || '');
