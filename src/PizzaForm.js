@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import schema from "./formSchema"
 import * as yup from "yup"
 
-const schema = yup.object().shape({
-    name: yup
-    .string()
-    .min(2, 'name must be at least 2 characters')
-    .required('Name is required')
-})
+
 
 const PizzaForm = () => {
     const [name, setName] = useState('')
-    const [size, setSize] = useState('')
+    const [size, setSize] = useState('small')
     const [topping1, setTopping1] = useState(false)
     const [topping2, setTopping2] = useState(false)
     const [topping3, setTopping3] = useState(false)
@@ -19,17 +15,14 @@ const PizzaForm = () => {
     const [special, setSpecial] = useState('')
     const [nameError, setNameError] = useState('')
 
+   
 
 
 
-
-
-    const handleSubmit = async () => {
-        try {
-            await schema.validate({name},{ abortEarly: false})
-        
-        
-
+ 
+    const handleSubmit = () => {
+      
+       
         const formData = {
             name,
             size,
@@ -39,14 +32,23 @@ const PizzaForm = () => {
             topping4,
             special,
         }
-        console.log(formData)
-        } catch (validationErrors) {
-            const newErrors = {}
-            validationErrors.inner.forEach((error) => {
-                newErrors[error.path] = error.message
-            })
-            setNameError(newErrors.name)
-        }
+        schema.validate(formData, {abortEarly: false})
+        .then(() => {
+            console.log(formData)
+        })
+        .catch((error) => {
+            const errors = {};
+            if (error.inner) {
+              error.inner.forEach((e) => {
+                errors[e.path] = e.message;
+              });
+            } else {
+              console.error("Validation error:", error.message);
+            }
+      
+            setNameError(errors.name || '');
+          });
+       
     }
     return (
         <div style={{ margin: '20px' }}>
@@ -65,7 +67,7 @@ const PizzaForm = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />&nbsp;
-                {nameError && <div style={{ color: 'red' }}>{nameError}</div>}
+                {nameError && <div id="name-error" style={{ color: 'red' }}>{nameError}</div>}
                 <label htmlFor="size-dropdown">Size:</label>&nbsp;
                 <select
                     id="size-dropdown"
