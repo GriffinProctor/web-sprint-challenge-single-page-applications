@@ -68,7 +68,7 @@ const PizzaForm = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />&nbsp;
-                {nameError && <div id="name-error" style={{ color: 'red' }}>{nameError}</div>}
+                {<div style={{ color: 'red' }}>name must be at least 2 characters</div>}
                 <label htmlFor="size-dropdown">Size:</label>&nbsp;
                 <select
                     id="size-dropdown"
